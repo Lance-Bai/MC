@@ -46,11 +46,24 @@ public class Condition {
             }
         }
 
-        // is M >= C?
+        // is M >= C in transit?
         for (int i = 0; i < 3; i++) {
             if (state[0][i] < state[1][i] && state[0][i] != 0) {
                 throw new IllegalNewStateException();
             }
+        }
+
+        // is M >= C when on land?
+        int totalM, totalC;
+        if (direction == Direction.TORIGHT) {
+            totalM = state[0][1] + state[0][2];
+            totalC = state[1][1] + state[1][2];
+        } else {
+            totalM = state[0][0] + state[0][1];
+            totalC = state[1][0] + state[1][2];
+        }
+        if (totalM < totalC && totalM != 0) {
+            throw new IllegalNewStateException();
         }
 
         // repeat the same operation?
